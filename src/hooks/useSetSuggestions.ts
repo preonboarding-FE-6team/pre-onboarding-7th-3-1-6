@@ -5,13 +5,18 @@ import { suggestionState } from '../recoil/suggestion';
 import debounce from '../utils/debounce';
 import sortTrialData from '../utils/sortTiralData';
 
-function useSetSuggestions() {
+type Option = {
+  cacheTime: number;
+};
+
+function useSetSuggestions(option?: Option) {
+  const { cacheTime = 5 * 60 * 1000 } = option ?? {};
   const handleSuggestionChange = useRecoilCallback(
-    ({ snapshot, set }) =>
+    ({ snapshot, set, reset }) =>
       async () => {
         const inputValue = await snapshot.getPromise(searchInputState);
 
-        if (!inputValue) {
+        if (!inputValue.trim()) {
           return;
         }
 
@@ -21,9 +26,10 @@ function useSetSuggestions() {
           return;
         }
 
-        const data = await getSuggestions(inputValue);
+        const data = await getSuggestions(inputValue.trim());
         console.info('calling api');
         set(suggestionState(inputValue), data.sort(sortTrialData(inputValue)));
+        setTimeout(() => reset(suggestionState(inputValue)), cacheTime);
       },
     []
   );
