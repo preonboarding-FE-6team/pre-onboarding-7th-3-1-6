@@ -14,7 +14,9 @@ function useKeyboard(searchInputRef: React.RefObject<HTMLInputElement>) {
     [searchInputRef]
   );
 
-  const handleKeyDown = ({ currentTarget, key }: React.KeyboardEvent) => {
+  const handleKeyDown = ({ currentTarget, key, nativeEvent: { isComposing } }: React.KeyboardEvent) => {
+    if (isComposing) return;
+
     if (
       !document.activeElement ||
       (!document.activeElement.closest('.search-suggestion') && !(document.activeElement === searchInputRef?.current))
