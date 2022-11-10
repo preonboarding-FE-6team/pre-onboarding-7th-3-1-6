@@ -1,19 +1,20 @@
 import styled from 'styled-components';
 import { ReactComponent as MagIcon } from '../../assets/icons/magnifier.svg';
+import ParsedName from './ParsedName';
 
 type Props = {
   suggestionName: string;
-  suggestion: React.ReactNode[];
+  inputValue: string;
 };
 
-function Suggestion({ suggestionName, suggestion }: Props) {
+function Suggestion({ suggestionName, inputValue }: Props) {
   return (
     <Container>
       <Link
         className="search-suggestion"
         href={`${process.env.REACT_APP_CLINICAL_TRIALS_KOREA}?conditions=${suggestionName}`}>
         <MagIcon />
-        <Text>{suggestion}</Text>
+        <ParsedName suggestionName={suggestionName} query={inputValue} />
       </Link>
     </Container>
   );

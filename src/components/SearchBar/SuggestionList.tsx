@@ -1,22 +1,9 @@
 import styled from 'styled-components';
 import useSuggestions from '../../hooks/useSuggestions';
-import splitString from '../../utils/splitTextNode';
 import Suggestion from './Suggestion';
-
-const getConverter = () => {
-  let count = 0;
-
-  function converter(splitter: string) {
-    count += 1;
-    return <Bold key={`bold-${count}`}>{splitter}</Bold>;
-  }
-
-  return converter;
-};
 
 function SuggestionList() {
   const { inputValue, suggestions } = useSuggestions();
-  const converter = getConverter();
 
   if (!inputValue) {
     return null;
@@ -27,10 +14,9 @@ function SuggestionList() {
       <Title>추천 검색어</Title>
       <List>
         {suggestions?.length ? (
-          suggestions.map(({ sickCd, sickNm }) => {
-            const suggestion = splitString(sickNm, inputValue, converter);
-            return <Suggestion key={sickCd} suggestionName={sickNm} suggestion={suggestion} />;
-          })
+          suggestions.map(({ sickCd, sickNm }) => (
+            <Suggestion key={sickCd} suggestionName={sickNm} inputValue={inputValue} />
+          ))
         ) : (
           <NoResult tabIndex={0}>검색어 없음</NoResult>
         )}
@@ -74,10 +60,6 @@ const List = styled.ul`
   overflow-y: auto;
   max-height: 500px;
   margin-top: 20px;
-`;
-
-const Bold = styled.b`
-  font-weight: 700;
 `;
 
 const NoResult = styled.li`

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { getSuggestions } from '../api/suggestion';
 import { searchInputState } from '../recoil/searchBar';
