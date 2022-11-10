@@ -1,6 +1,6 @@
 const devices = {
   mobile: '767px',
-  desktop: '1024px',
+  desktop: '768px',
 };
 
 const responsive = {
