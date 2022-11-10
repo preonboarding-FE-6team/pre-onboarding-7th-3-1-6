@@ -36,6 +36,10 @@ const Container = styled.button`
     height: 16px;
     fill: ${({ theme }) => theme.color.WHITE};
   }
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    right: 48px;
+  }
 `;
 
 export default ClearButton;

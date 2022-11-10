@@ -22,6 +22,10 @@ const StyledInput = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.color.GRAY};
   }
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    font-size: 16px;
+  }
 `;
 
 export default Input;

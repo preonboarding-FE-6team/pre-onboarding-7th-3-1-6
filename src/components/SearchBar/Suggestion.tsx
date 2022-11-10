@@ -48,6 +48,10 @@ const Link = styled.a`
 
 const Text = styled.span`
   font-size: 16px;
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    font-size: 12px;
+  }
 `;
 
 export default Suggestion;
