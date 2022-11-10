@@ -68,13 +68,12 @@ const Title = styled.strong`
 `;
 
 const List = styled.ul`
-  overflow-y: auto;
-  max-height: 500px;
-  margin-top: 20px;
-
   &::-webkit-scrollbar {
     display: none;
   }
+  overflow-y: auto;
+  max-height: 500px;
+  margin-top: 20px;
 `;
 
 const Bold = styled.b`
