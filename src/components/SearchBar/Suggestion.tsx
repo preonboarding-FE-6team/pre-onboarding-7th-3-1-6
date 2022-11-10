@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as MagIcon } from '../../assets/icons/magnifier.svg';
 import ParsedName from './ParsedName';
@@ -47,12 +48,4 @@ const Link = styled.a`
   }
 `;
 
-const Text = styled.span`
-  font-size: 16px;
-
-  @media ${({ theme }) => theme.responsive.mobile} {
-    font-size: 12px;
-  }
-`;
-
-export default Suggestion;
+export default React.memo(Suggestion);
