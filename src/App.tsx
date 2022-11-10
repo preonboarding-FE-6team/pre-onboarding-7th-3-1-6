@@ -22,6 +22,10 @@ const Container = styled.div`
   min-height: 100vh;
   height: 100%;
   background-color: ${({ theme }) => theme.color.BACKGROUND};
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    height: 100vh;
+  }
 `;
 
 const InnerContainer = styled.div`
@@ -35,6 +39,10 @@ const Title = styled.h1`
   font-size: 32px;
   line-height: 1.5;
   text-align: center;
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    font-size: 24px;
+  }
 `;
 
 export default App;

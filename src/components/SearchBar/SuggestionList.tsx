@@ -48,6 +48,10 @@ const Container = styled.div`
   padding: 20px 0;
   border-radius: 20px;
   background-color: ${({ theme }) => theme.color.WHITE};
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    height: 320px;
+  }
 `;
 
 const Title = styled.strong`

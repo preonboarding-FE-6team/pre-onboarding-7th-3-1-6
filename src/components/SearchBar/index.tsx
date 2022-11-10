@@ -42,6 +42,11 @@ const Container = styled.div<{ isFocused: boolean }>`
     margin-right: 12px;
     fill: ${({ theme }) => theme.color.GRAY};
   }
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    height: 48px;
+    width: 320px;
+  }
 `;
 
 export default SearchBar;
