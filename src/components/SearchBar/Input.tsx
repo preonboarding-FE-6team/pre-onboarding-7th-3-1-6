@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import useSearchInput from '../../hooks/useSearchInput';
 
@@ -7,6 +8,12 @@ type Props = {
 
 function Input({ searchInputRef }: Props) {
   const { value, handleChange } = useSearchInput();
+
+  useEffect(() => {
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, []);
 
   return (
     <StyledInput ref={searchInputRef} value={value} onChange={handleChange} placeholder="질환명을 입력해주세요." />
@@ -21,6 +28,10 @@ const StyledInput = styled.input`
 
   &::placeholder {
     color: ${({ theme }) => theme.color.GRAY};
+  }
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    font-size: 16px;
   }
 `;
 

@@ -48,6 +48,17 @@ const Container = styled.div`
   padding: 20px 0;
   border-radius: 20px;
   background-color: ${({ theme }) => theme.color.WHITE};
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    height: 320px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const Title = styled.strong`
@@ -57,13 +68,12 @@ const Title = styled.strong`
 `;
 
 const List = styled.ul`
-  overflow-y: auto;
-  max-height: 500px;
-  margin-top: 20px;
-
   &::-webkit-scrollbar {
     display: none;
   }
+  overflow-y: auto;
+  max-height: 500px;
+  margin-top: 20px;
 `;
 
 const Bold = styled.b`

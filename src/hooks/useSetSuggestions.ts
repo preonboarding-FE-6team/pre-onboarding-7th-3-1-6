@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRecoilCallback } from 'recoil';
 import { getSuggestions } from '../api/suggestion';
 import { searchInputState } from '../recoil/searchBar';
@@ -26,10 +27,14 @@ function useSetSuggestions(option?: Option) {
           return;
         }
 
-        const data = await getSuggestions(inputValue.trim());
+        const { data, status, errorMsg } = await getSuggestions(inputValue);
         console.info('calling api');
-        set(suggestionState(inputValue), data.sort(sortTrialData(inputValue)));
-        setTimeout(() => reset(suggestionState(inputValue)), cacheTime);
+        if (status >= 200 && status < 300) {
+          set(suggestionState(inputValue), data.sort(sortTrialData(inputValue)));
+          setTimeout(() => reset(suggestionState(inputValue)), cacheTime);
+        } else {
+          alert(errorMsg.default);
+        }
       },
     []
   );

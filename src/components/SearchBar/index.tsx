@@ -19,8 +19,8 @@ function SearchBar() {
     <Container isFocused={isFocused} onKeyDown={handleKeyDown} onFocus={handleFocus} className="search-bar">
       <MagIcon />
       <Input searchInputRef={searchInputRef} />
-      {isFocused ? <SuggestionList /> : null}
-      {isFocused ? <ClearButton onClick={handleClear} /> : null}
+      <SuggestionList />
+      <ClearButton onClick={handleClear} />
       <SearchButton />
     </Container>
   );
@@ -41,6 +41,11 @@ const Container = styled.div<{ isFocused: boolean }>`
     height: 18px;
     margin-right: 12px;
     fill: ${({ theme }) => theme.color.GRAY};
+  }
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    height: 48px;
+    width: 320px;
   }
 `;
 

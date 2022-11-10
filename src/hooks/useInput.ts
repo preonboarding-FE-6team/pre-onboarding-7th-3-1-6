@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useCallback } from 'react';
 
 function useInput() {
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const [isFocused, setIsFocused] = useState(false);
+  const [isFocused, setIsFocused] = useState(true);
 
   const handleFocus = useCallback(() => setIsFocused(true), []);
   const handleFocusOut = useCallback(({ relatedTarget }: FocusEvent) => {
