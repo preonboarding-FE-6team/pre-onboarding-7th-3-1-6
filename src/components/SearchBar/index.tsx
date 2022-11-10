@@ -19,8 +19,8 @@ function SearchBar() {
     <Container isFocused={isFocused} onKeyDown={handleKeyDown} onFocus={handleFocus} className="search-bar">
       <MagIcon />
       <Input searchInputRef={searchInputRef} />
-      {isFocused ? <SuggestionList /> : null}
-      {isFocused ? <ClearButton onClick={handleClear} /> : null}
+      <SuggestionList />
+      <ClearButton onClick={handleClear} />
       <SearchButton />
     </Container>
   );
