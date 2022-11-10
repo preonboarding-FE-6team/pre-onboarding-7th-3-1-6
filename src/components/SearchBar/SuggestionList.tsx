@@ -51,6 +51,13 @@ const Container = styled.div`
 
   @media ${({ theme }) => theme.responsive.mobile} {
     height: 320px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
   }
 `;
 
