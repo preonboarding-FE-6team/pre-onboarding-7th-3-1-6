@@ -14,6 +14,7 @@ function useKeyboard(searchInputRef: React.RefObject<HTMLInputElement>) {
     [searchInputRef]
   );
 
+
   const handleKeyDown = ({ currentTarget, key, nativeEvent: { isComposing } }: React.KeyboardEvent) => {
     if (isComposing) return;
 
@@ -49,6 +50,8 @@ function useKeyboard(searchInputRef: React.RefObject<HTMLInputElement>) {
       const $nextSuggestion = suggestions[curIndex + 1];
       if ($nextSuggestion instanceof HTMLElement) {
         $nextSuggestion.focus();
+      } else if (curIndex === suggestions.length - 1) {
+        searchInputRef.current?.focus();
       }
     }
 

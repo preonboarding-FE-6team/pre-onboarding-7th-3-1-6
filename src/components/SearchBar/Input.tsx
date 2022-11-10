@@ -10,7 +10,9 @@ function Input({ searchInputRef }: Props) {
   const { value, handleChange } = useSearchInput();
 
   useEffect(() => {
-    searchInputRef.current?.focus();
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
   }, []);
 
   return (
