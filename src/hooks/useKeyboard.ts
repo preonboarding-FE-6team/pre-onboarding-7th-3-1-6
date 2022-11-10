@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
+import useSuggestions from './useSuggestions';
 
 function useKeyboard(inputRef: React.RefObject<HTMLInputElement>, elRef: React.RefObject<HTMLElement>) {
+  const { inputValue } = useSuggestions();
   const [focusIndex, setFocusIndex] = useState<number>(-1);
   const ANCHOR_INDEX = 0;
 
@@ -8,6 +10,14 @@ function useKeyboard(inputRef: React.RefObject<HTMLInputElement>, elRef: React.R
     if (e.nativeEvent.isComposing) return;
 
     switch (e.key) {
+      case 'Tab':
+        setFocusIndex((cur) => {
+          if (elRef.current?.childElementCount === cur + 1) return cur;
+          e.preventDefault();
+          return cur + 1;
+        });
+        break;
+
       case 'ArrowDown':
         setFocusIndex((cur) => {
           if (elRef.current?.childElementCount === cur + 1) return cur;
@@ -16,7 +26,7 @@ function useKeyboard(inputRef: React.RefObject<HTMLInputElement>, elRef: React.R
         break;
       case 'ArrowUp':
         setFocusIndex((cur) => {
-          if (cur === 0) {
+          if (cur === 0 || cur === -1) {
             inputRef.current?.focus();
             return -1;
           }
@@ -32,6 +42,10 @@ function useKeyboard(inputRef: React.RefObject<HTMLInputElement>, elRef: React.R
     const focusedEl = elRef.current?.children[focusIndex]?.children[ANCHOR_INDEX] as HTMLElement | undefined;
     focusedEl?.focus();
   }, [focusIndex]);
+
+  useEffect(() => {
+    setFocusIndex(-1);
+  }, [inputValue]);
 
   return { handleKeyDown };
 }
