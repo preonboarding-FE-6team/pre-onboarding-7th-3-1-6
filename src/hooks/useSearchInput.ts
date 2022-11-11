@@ -5,7 +5,7 @@ import useSetSuggestions from './useSetSuggestions';
 
 function useSearchInput() {
   const [inputState, setInputState] = useRecoilState(searchInputState);
-  const setSuggestions = useSetSuggestions();
+  const setSuggestions = useSetSuggestions({ cacheTime: 2 * 60 * 1000 });
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const {

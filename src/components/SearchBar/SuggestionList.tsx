@@ -1,22 +1,13 @@
 import styled from 'styled-components';
 import useSuggestions from '../../hooks/useSuggestions';
-import splitString from '../../utils/splitTextNode';
 import Suggestion from './Suggestion';
 
-const getConverter = () => {
-  let count = 0;
-
-  function converter(splitter: string) {
-    count += 1;
-    return <Bold key={`bold-${count}`}>{splitter}</Bold>;
-  }
-
-  return converter;
+type Props = {
+  suggestionListRef: React.RefObject<HTMLUListElement>;
 };
 
-function SuggestionList() {
+function SuggestionList({ suggestionListRef }: Props) {
   const { inputValue, suggestions } = useSuggestions();
-  const converter = getConverter();
 
   if (!inputValue) {
     return null;
@@ -25,12 +16,11 @@ function SuggestionList() {
   return (
     <Container>
       <Title>추천 검색어</Title>
-      <List>
+      <List ref={suggestionListRef}>
         {suggestions?.length ? (
-          suggestions.map(({ sickCd, sickNm }) => {
-            const suggestion = splitString(sickNm, inputValue, converter);
-            return <Suggestion key={sickCd} suggestionName={sickNm} suggestion={suggestion} />;
-          })
+          suggestions.map(({ sickCd, sickNm }) => (
+            <Suggestion key={sickCd} suggestionName={sickNm} inputValue={inputValue} />
+          ))
         ) : (
           <NoResult tabIndex={0}>검색어 없음</NoResult>
         )}
@@ -48,6 +38,17 @@ const Container = styled.div`
   padding: 20px 0;
   border-radius: 20px;
   background-color: ${({ theme }) => theme.color.WHITE};
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    height: 320px;
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  }
 `;
 
 const Title = styled.strong`
@@ -57,17 +58,12 @@ const Title = styled.strong`
 `;
 
 const List = styled.ul`
-  overflow-y: auto;
-  max-height: 500px;
-  margin-top: 20px;
-
   &::-webkit-scrollbar {
     display: none;
   }
-`;
-
-const Bold = styled.b`
-  font-weight: 700;
+  overflow-y: auto;
+  max-height: 500px;
+  margin-top: 10px;
 `;
 
 const NoResult = styled.li`

@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import useSearchInput from '../../hooks/useSearchInput';
 
@@ -10,7 +10,9 @@ function Input({ searchInputRef }: Props) {
   const { value, handleChange } = useSearchInput();
 
   useEffect(() => {
-    searchInputRef.current?.focus();
+    if (searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
   }, []);
 
   return (
@@ -26,6 +28,10 @@ const StyledInput = styled.input`
 
   &::placeholder {
     color: ${({ theme }) => theme.color.GRAY};
+  }
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    font-size: 16px;
   }
 `;
 
