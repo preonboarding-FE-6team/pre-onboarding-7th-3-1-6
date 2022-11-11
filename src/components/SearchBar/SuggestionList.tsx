@@ -2,7 +2,11 @@ import styled from 'styled-components';
 import useSuggestions from '../../hooks/useSuggestions';
 import Suggestion from './Suggestion';
 
-function SuggestionList() {
+type Props = {
+  suggestionListRef: React.RefObject<HTMLUListElement>;
+};
+
+function SuggestionList({ suggestionListRef }: Props) {
   const { inputValue, suggestions } = useSuggestions();
 
   if (!inputValue) {
@@ -12,7 +16,7 @@ function SuggestionList() {
   return (
     <Container>
       <Title>추천 검색어</Title>
-      <List>
+      <List ref={suggestionListRef}>
         {suggestions?.length ? (
           suggestions.map(({ sickCd, sickNm }) => (
             <Suggestion key={sickCd} suggestionName={sickNm} inputValue={inputValue} />
@@ -59,7 +63,7 @@ const List = styled.ul`
   }
   overflow-y: auto;
   max-height: 500px;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const NoResult = styled.li`

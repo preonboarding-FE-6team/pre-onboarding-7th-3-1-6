@@ -1,73 +1,53 @@
-import { useRecoilCallback } from 'recoil';
-import { searchInputState } from '../recoil/searchBar';
+import { useEffect, useState } from 'react';
+import useSuggestions from './useSuggestions';
 
-function useKeyboard(searchInputRef: React.RefObject<HTMLInputElement>) {
-  const restoreInputValue = useRecoilCallback(
-    ({ snapshot }) =>
-      async () => {
-        const inputValue = await snapshot.getPromise(searchInputState);
-        if (!searchInputRef?.current) {
-          return;
-        }
-        searchInputRef.current.value = inputValue;
-      },
-    [searchInputRef]
-  );
+function useKeyboard(inputRef: React.RefObject<HTMLInputElement>, elRef: React.RefObject<HTMLElement>) {
+  const { inputValue } = useSuggestions();
+  const [focusIndex, setFocusIndex] = useState<number>(-1);
+  const ANCHOR_INDEX = 0;
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.nativeEvent.isComposing) return;
 
-  const handleKeyDown = ({ currentTarget, key, nativeEvent: { isComposing } }: React.KeyboardEvent) => {
-    if (isComposing) return;
+    switch (e.key) {
+      case 'Tab':
+        setFocusIndex((cur) => {
+          if (elRef.current?.childElementCount === cur + 1) return cur;
+          e.preventDefault();
+          return cur + 1;
+        });
+        break;
 
-    if (
-      !document.activeElement ||
-      (!document.activeElement.closest('.search-suggestion') && !(document.activeElement === searchInputRef?.current))
-    ) {
-      return;
-    }
-
-    const suggestions = [...currentTarget.querySelectorAll('.search-suggestion')];
-
-    if (document.activeElement === searchInputRef.current) {
-      if (key === 'Enter') {
-        window.location.href = `${process.env.REACT_APP_CLINICAL_TRIALS_KOREA}?conditions=${searchInputRef.current.value}`;
-      }
-
-      if (key === 'ArrowDown') {
-        const $nextSuggestion = suggestions[0];
-        if ($nextSuggestion instanceof HTMLElement) {
-          $nextSuggestion.focus();
-        }
-      }
-      if (key === 'ArrowUp') {
-        restoreInputValue();
-      }
-      return;
-    }
-
-    const curIndex = suggestions.indexOf(document.activeElement);
-
-    if (key === 'ArrowDown') {
-      const $nextSuggestion = suggestions[curIndex + 1];
-      if ($nextSuggestion instanceof HTMLElement) {
-        $nextSuggestion.focus();
-      } else if (curIndex === suggestions.length - 1) {
-        searchInputRef.current?.focus();
-      }
-    }
-
-    if (key === 'ArrowUp') {
-      if (!curIndex) {
-        searchInputRef.current?.focus();
-        restoreInputValue();
-        return;
-      }
-
-      const $prevSuggestion = suggestions[curIndex - 1];
-      if ($prevSuggestion instanceof HTMLElement) {
-        $prevSuggestion.focus();
-      }
+      case 'ArrowDown':
+        e.preventDefault();
+        setFocusIndex((cur) => {
+          if (elRef.current?.childElementCount === cur + 1) return cur;
+          return cur + 1;
+        });
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        setFocusIndex((cur) => {
+          if (cur === 0 || cur === -1) {
+            inputRef.current?.focus();
+            return -1;
+          }
+          return cur - 1;
+        });
+        break;
+      default:
+        break;
     }
   };
+
+  useEffect(() => {
+    const focusedEl = elRef.current?.children[focusIndex]?.children[ANCHOR_INDEX] as HTMLElement | undefined;
+    focusedEl?.focus();
+  }, [focusIndex]);
+
+  useEffect(() => {
+    setFocusIndex(-1);
+  }, [inputValue]);
 
   return { handleKeyDown };
 }

@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from 'styled-components';
 import { ReactComponent as MagIcon } from '../../assets/icons/magnifier.svg';
 import ParsedName from './ParsedName';
@@ -14,7 +15,9 @@ function Suggestion({ suggestionName, inputValue }: Props) {
         className="search-suggestion"
         href={`${process.env.REACT_APP_CLINICAL_TRIALS_KOREA}?conditions=${suggestionName}`}>
         <MagIcon />
-        <ParsedName suggestionName={suggestionName} query={inputValue} />
+        <div>
+          <ParsedName suggestionName={suggestionName} query={inputValue} />
+        </div>
       </Link>
     </Container>
   );
@@ -27,11 +30,23 @@ const Container = styled.li`
 `;
 
 const Link = styled.a`
-  ${({ theme }) => theme.mixin.flex('flex-start')}
-  height: 40px;
+  ${({ theme }) => theme.mixin.flex('flex-start', 'center')}
+  width: 100%;
+  height: 50px;
   padding: 0 20px;
   user-select: none;
   cursor: pointer;
+
+  > div {
+    ${({ theme }) => theme.mixin.flex('flex-start', 'center')}
+    width: 100%;
+    height: 50px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    word-wrap: break-word;
+    line-height: 22px;
+  }
 
   & > svg {
     flex-shrink: 0;
@@ -47,12 +62,4 @@ const Link = styled.a`
   }
 `;
 
-const Text = styled.span`
-  font-size: 16px;
-
-  @media ${({ theme }) => theme.responsive.mobile} {
-    font-size: 12px;
-  }
-`;
-
-export default Suggestion;
+export default React.memo(Suggestion);
