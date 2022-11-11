@@ -19,12 +19,14 @@ function useKeyboard(inputRef: React.RefObject<HTMLInputElement>, elRef: React.R
         break;
 
       case 'ArrowDown':
+        e.preventDefault();
         setFocusIndex((cur) => {
           if (elRef.current?.childElementCount === cur + 1) return cur;
           return cur + 1;
         });
         break;
       case 'ArrowUp':
+        e.preventDefault();
         setFocusIndex((cur) => {
           if (cur === 0 || cur === -1) {
             inputRef.current?.focus();

@@ -63,7 +63,7 @@ const List = styled.ul`
   }
   overflow-y: auto;
   max-height: 500px;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 const NoResult = styled.li`
