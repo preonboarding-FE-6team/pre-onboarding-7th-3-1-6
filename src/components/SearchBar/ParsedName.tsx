@@ -7,14 +7,14 @@ type Props = {
 };
 
 function ParsedName({ suggestionName, query }: Props) {
-  const splitList = suggestionName.split(new RegExp(`(${query})`));
+  const splitList = suggestionName.split(new RegExp(`(${query})`, 'i'));
   let key = 0;
 
   return (
     <>
       {splitList.map((word) => (
         <React.Fragment key={`${key++}-${word}`}>
-          {word === query ? <Bold>{query}</Bold> : <span>{word}</span>}
+          {word.toLowerCase() === query.toLowerCase() ? <Bold>{word}</Bold> : <span>{word}</span>}
         </React.Fragment>
       ))}
     </>
