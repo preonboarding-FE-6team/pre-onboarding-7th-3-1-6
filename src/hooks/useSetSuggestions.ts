@@ -26,14 +26,13 @@ function useSetSuggestions(option?: Option) {
           return;
         }
 
-        const { data, status, errorMsg } = await getSuggestions(inputValue);
-        console.info('calling api');
-        if (status >= 200 && status < 300) {
+      const { data, errorMsg } = await getSuggestions(inputValue);
+        try {
           set(suggestionState(inputValue), data.sort(sortTrialData(inputValue)));
-          setTimeout(() => reset(suggestionState(inputValue)), cacheTime);
-        } else {
+        } catch (err) {
           alert(errorMsg.default);
         }
+        console.info('calling api');
       },
     []
   );
