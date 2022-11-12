@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import styled from 'styled-components';
 import useInput from '../../hooks/useInput';
 import Input from './Input';
@@ -11,16 +12,17 @@ import useSuggestionFocus from '../../hooks/useSuggestionFocus';
 
 function SearchBar() {
   const { searchInputRef, isFocused } = useInput();
+  const suggestionListRef = useRef<HTMLUListElement>(null);
   const handleClear = useClear(searchInputRef);
-  const { handleKeyDown } = useKeyboard(searchInputRef);
+  const { handleKeyDown } = useKeyboard(searchInputRef, suggestionListRef);
   const handleFocus = useSuggestionFocus(searchInputRef);
 
   return (
     <Container isFocused={isFocused} onKeyDown={handleKeyDown} onFocus={handleFocus} className="search-bar">
       <MagIcon />
       <Input searchInputRef={searchInputRef} />
-      {isFocused ? <SuggestionList /> : null}
-      {isFocused ? <ClearButton onClick={handleClear} /> : null}
+      <SuggestionList suggestionListRef={suggestionListRef} />
+      <ClearButton onClick={handleClear} />
       <SearchButton />
     </Container>
   );
@@ -41,6 +43,11 @@ const Container = styled.div<{ isFocused: boolean }>`
     height: 18px;
     margin-right: 12px;
     fill: ${({ theme }) => theme.color.GRAY};
+  }
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    height: 48px;
+    width: 320px;
   }
 `;
 

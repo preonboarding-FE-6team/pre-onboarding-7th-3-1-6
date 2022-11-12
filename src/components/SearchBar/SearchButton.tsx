@@ -24,6 +24,15 @@ const StyledButton = styled.a`
     height: 21px;
     fill: ${({ theme }) => theme.color.WHITE};
   }
+
+  @media ${({ theme }) => theme.responsive.mobile} {
+    width: 32px;
+    height: 32px;
+    & > svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
 `;
 
 export default SearchButton;
