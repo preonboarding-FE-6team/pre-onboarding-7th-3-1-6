@@ -22,10 +22,10 @@ function useSetSuggestions() {
           return;
         }
 
-        const { data, status, errorMsg } = await getSuggestions(inputValue);
-        if (status >= 200 && status < 300) {
+        const { data, errorMsg } = await getSuggestions(inputValue);
+        try {
           set(suggestionState(inputValue), data.sort(sortTrialData(inputValue)));
-        } else {
+        } catch (err) {
           alert(errorMsg.default);
         }
         console.info('calling api');
